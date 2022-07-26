@@ -3,7 +3,9 @@ const app = express()
 const morgan = require('morgan')
 // const helmet = require('helmet')
 const path = require('path')
-const { create } = require('express-handlebars')
+const {
+    create
+} = require('express-handlebars')
 const mongoose = require('mongoose')
 
 // Require routes
@@ -34,7 +36,9 @@ app.use(express.json())
 app.use(express.static(path.join(__dirname, 'public')))
 
 // Urlencoded middleware
-app.use(express.urlencoded({ extended: true }))
+app.use(express.urlencoded({
+    extended: true
+}))
 
 // Module middleware
 if (process.env.NODE_ENV === 'development') {
@@ -48,17 +52,14 @@ app.use('/', homeRouter)
 app.use('/lessons/', lessonRouter)
 app.use('/card/', cardRouter)
 
-async function db() {
-    try {
-        await mongoose.connect('mongodb+srv://shohrux:2qgLSOze8Q4kGtDM@cluster0.iczbdik.mongodb.net/online-edu', () => {
-            console.log('MongoDB connected');
-        })
-    } catch (error) {
-        console.error(error);
-    }
+try {
+    mongoose.connect('mongodb+srv://odilbek:Odil1234@cluster0.r8i7ieq.mongodb.net/online-lesson', (err) => {
+        if (err) console.error(err);
+        else console.log('MongoDB connected');
+    })
+} catch (error) {
+    console.error(error);
 }
-
-db()
 
 const port = normalizePort(process.env.port || 3000) // Number
 app.listen(port, () => {
